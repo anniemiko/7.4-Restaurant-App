@@ -3,12 +3,17 @@ var Backbone = require('backbone');
 
 var MenuCollection = require('../models/models.js').MenuCollection;
 var OrderCollection = require('../models/models.js').OrderCollection;
+var NewOrderCollection = require('../models/models.js').NewOrderCollection;
 
 var RestAppContainer = React.createClass({
   getInitialState: function(){
     var foodCollection = new MenuCollection();
     var orderCollection = new OrderCollection();
-    return {foodCollection: foodCollection, orderCollection: orderCollection};
+    var newOrderCollection = new NewOrderCollection();
+
+    newOrderCollection.fetch();
+
+    return {foodCollection: foodCollection, orderCollection: orderCollection, newOrderCollection: newOrderCollection};
   },
   componentWillMount: function(){
     var newFoodCollection = this.state.foodCollection;
@@ -23,20 +28,20 @@ var RestAppContainer = React.createClass({
   },
   updateOrder: function(menu){
     // console.log(menu);
-    this.state.orderCollection.create(menu);
+    this.state.newOrderCollection.create(menu);
   },
   render: function(){
     // console.log(this.state.foodCollection);
     return (
       <div>
-        <FoodItemView updateOrder={this.updateOrder} foodCollection={this.state.foodCollection}/>
-        <OrderView orderCollection={this.state.orderCollection}/>
+        <FoodListView updateOrder={this.updateOrder} foodCollection={this.state.foodCollection}/>
+        <OrderView newOrderCollection={this.state.newOrderCollection} orderCollection={this.state.orderCollection}/>
       </div>
     )
   }
 });
 
-var FoodItemView = React.createClass({
+var FoodListView = React.createClass({
   propTypes: {
     foodCollection: React.PropTypes.instanceOf(Backbone.Collection).isRequired
   },
@@ -73,46 +78,40 @@ var FoodItemView = React.createClass({
   }
 });
 
-// var FoodListView = React.createClass({
-//   render: function(){
-//     return (
-//       <div className="menu col-md-8">
-//         <ul className="menu-list">
-//           <h3>Menu</h3>
-//           {FoodItemView}
-//         </ul>
-//       </div>
-//     )
-//   }
-// });
-
 var OrderView = React.createClass({
   getInitialState: function(){
-    var orderCollection = new OrderCollection();
-    return {orderCollection: orderCollection};
+    var cartItem = this.props.newOrderCollection;
+    return {cartItem: cartItem};
+    // var
   },
-  // additem: function(){
-  //   var newOrderCollection = this.state.orderCollection;
-  //
-  //   newOrderCollection.create(
-  //   )
-  // },
+  placeOrder: function(){
+    var orderFood = this.props.newOrderCollection
+    console.log(orderFood);
+    // console.log(this.props.orderCollection);
+    this.props.orderCollection.create(orderFood)
+    // make an ajax call to post my collection array to the database
+  },
   render: function(){
-    
-    return (
+    var orderItems = this.props.newOrderCollection.map(function(order){
+      return (
+            <li key={order.cid} className="item">
+              <span className="item-name">{order.get('title')}</span>
+              <span className="item-price">{order.get('price')}</span>
+            </li>
+          )
+        })
+    return(
       <div className="order-box col-md-4">
-        <ul>
-          <h3>Order Preview</h3>
-          <li className="item">
-            <span className="item-name"></span>
-            <span className="item-price"></span>
-          </li>
-        </ul>
-        <div className="subtotal">
-          <span className="total"></span>
-          <span className="total-price"></span>
+        <h3>Order Preview</h3>
+          <ul>
+          {orderItems}
+          </ul>
+          <div className="subtotal">
+            <span className="total"></span>
+            <span className="total-price"></span>
+          </div>
+          <button onClick={this.placeOrder}>Place Order</button>
         </div>
-      </div>
     )
   }
 });

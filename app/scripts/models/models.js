@@ -1,11 +1,12 @@
 var Backbone = require('backbone');
+Backbone.LocalStorage = require('backbone.localstorage');
 
 var MenuItem = Backbone.Model.extend({
-  idAttribute: '_id'
+
 });
 
 var OrderItem = Backbone.Model.extend({
-
+  idAttribute: '_id'
 });
 
 var MenuCollection = Backbone.Collection.extend({
@@ -13,12 +14,22 @@ var MenuCollection = Backbone.Collection.extend({
 });
 
 var OrderCollection = Backbone.Collection.extend({
-  model: OrderItem
+  model: OrderItem,
+  url: 'https://tiny-lasagna-server.herokuapp.com/collections/mikorestaurant'
+});
+
+var NewOrderCollection = Backbone.Collection.extend({
+  model: OrderItem,
+  localStorage: new Backbone.LocalStorage('cart'),
+  calculateTotal: function(){
+
+  }
 });
 
 module.exports = {
   MenuItem,
   OrderItem,
   MenuCollection,
-  OrderCollection
+  OrderCollection,
+  NewOrderCollection
 }
