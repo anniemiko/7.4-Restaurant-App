@@ -1,7 +1,7 @@
 var Backbone = require('backbone');
 
 var MenuItem = Backbone.Model.extend({
-
+  idAttribute: '_id'
 });
 
 var OrderItem = Backbone.Model.extend({
