@@ -24,7 +24,8 @@ var RestAppContainer = React.createClass({
       {title: 'shake', description: 'creamy', price: 4},
       {title: 'cookie', description: 'yummy', price: 2}
     ]);
-    this.setState({foodCollection: newFoodCollection})
+    var subTotal = this.state.newOrderCollection.calculateTotal();
+    this.setState({foodCollection: newFoodCollection, subTotal: subTotal})
   },
   updateOrder: function(menu){
     // console.log(menu);
@@ -35,7 +36,7 @@ var RestAppContainer = React.createClass({
     return (
       <div>
         <FoodListView updateOrder={this.updateOrder} foodCollection={this.state.foodCollection}/>
-        <OrderView newOrderCollection={this.state.newOrderCollection} orderCollection={this.state.orderCollection}/>
+        <OrderView newOrderCollection={this.state.newOrderCollection} orderCollection={this.state.orderCollection} subTotal={this.state.subTotal}/>
       </div>
     )
   }
@@ -69,8 +70,8 @@ var FoodListView = React.createClass({
     })
     return (
       <div className="menu col-md-8">
+        <h3>Menu</h3>
         <ul className="menu-list">
-          <h3>Menu</h3>
           {menuItems}
         </ul>
       </div>
@@ -81,37 +82,49 @@ var FoodListView = React.createClass({
 var OrderView = React.createClass({
   getInitialState: function(){
     var cartItem = this.props.newOrderCollection;
-    return {cartItem: cartItem};
+    var subTotal = this.props.newOrderCollection.subTotal;
+    return {cartItem: cartItem, subTotal: subTotal};
     // var
+  },
+  deleteItem: function(){
+
   },
   placeOrder: function(){
     var orderFood = this.props.newOrderCollection
-    console.log(orderFood);
+    // console.log(orderFood);
     // console.log(this.props.orderCollection);
-    this.props.orderCollection.create(orderFood)
+    this.props.orderCollection.create(orderFood);
     // make an ajax call to post my collection array to the database
+    // Backbone.LocalStorage.setVersion(0);
+    // clearing local storage for next order
+    this.setState({orderCollection: new OrderCollection, newOrderCollection: [''], subTotal: 0});
+    localStorage.clear();
   },
   render: function(){
     var orderItems = this.props.newOrderCollection.map(function(order){
+      var self = this;
       return (
             <li key={order.cid} className="item">
               <span className="item-name">{order.get('title')}</span>
               <span className="item-price">{order.get('price')}</span>
+              <button className="btn btn-danger delete-btn">Delete</button>
             </li>
           )
         })
     return(
       <div className="order-box col-md-4">
         <h3>Order Preview</h3>
+        <div className="orders">
           <ul>
           {orderItems}
           </ul>
           <div className="subtotal">
-            <span className="total"></span>
-            <span className="total-price"></span>
+            <span className="total">Total:</span>
+            <span className="total-price">${this.props.subTotal}</span>
           </div>
-          <button onClick={this.placeOrder}>Place Order</button>
+          <button className="btn btn-success" onClick={this.placeOrder}>Place Order</button>
         </div>
+      </div>
     )
   }
 });

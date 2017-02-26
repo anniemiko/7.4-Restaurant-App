@@ -22,7 +22,10 @@ var NewOrderCollection = Backbone.Collection.extend({
   model: OrderItem,
   localStorage: new Backbone.LocalStorage('cart'),
   calculateTotal: function(){
-
+    var subTotal = this.reduce(function(accum, i){
+      return accum + i.get('price')
+    }, 0);
+    return subTotal.toFixed(2)
   }
 });
 
