@@ -17,61 +17,89 @@ img {
 }
 
 .header{
-  background-image: url('http://thenormaldiner.com/wp-content/uploads/2014/11/TheNormal-Slide-1800x730-1800x730.jpg');
+  background-image: url('http://www.clipartbest.com/cliparts/yTo/aM8/yToaM8pqc.gif');
   background-position: center;
-  height: 150px;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 h1{
-  font-family: sans-serif;
+  font-family: 'Sansita', sans-serif;
   font-weight: bolder;
-  color: white;
-  font-size: 75px;
+  color: #262020;
+  font-size: 65px;
   text-align: center;
+  margin-bottom: 0;
+  margin-top: 30px;
+  padding-top: 60px;
+}
+h2{
+  font-family: 'Sansita', sans-serif;
+  color: #262020;
+  font-size: 55px;
+  text-align: center;
+  margin-top: 0;
+}
+.nav li{
+  font-size: 15px;
 }
 
 .menu{
-  background-color: #136E88;
+  background-color: #021C62;
   height: 600px;
 }
 h3{
   color: white;
   font-size: 30px;
   padding: 18px;
+  font-family: 'Sansita', sans-serif;
 }
 .menu-list{
   background-color: white;
-  margin: 40px;
+  margin: 20px;
 }
-.menu-item{
+.menu-item, .item{
   padding: 10px;
 }
-.menu-item li{
+ul{
   color: #024254;
-  text-decoration: none;
+  list-style-type: none;
+  padding-left: 0px;
 }
-.menu-itemTitle{
+.menu-itemTitle, .item-name{
   font-size: 20px;
   font-weight: bold;
   color: #024254;
   text-decoration: none;
 }
-.price{
+.price, .item-price{
   float: right;
   font-size: 20px;
   font-weight: bold;
+  padding-right: 10px;
 }
 .order-box{
-  background-color: #AF5D0A;
+  background-color: #926300;
 }
 .orders{
   background-color: white;
-  margin: 40px;
-  height: 400px;
+  margin: 20px;
+  height: 450px;
+}
+.subtotal{
+  font-size: 20px;
+  font-weight: bold;
+  color: #024254;
+  text-decoration: none;
+  padding: 15px;
+}
+.btn{
+  margin-left: 15px;
 }
 .delete-btn{
-  float: right;
+  text-align: right;
 }
 
 body{
-  background-color: #DB7A18;
+  background-image: url('http://previews.123rf.com/images/jojoohho/jojoohho1304/jojoohho130400003/18919171-thai-border-background-Stock-Vector-thai-pattern-thailand.jpg');
+  font-family: 'Sansita', sans-serif;
 }

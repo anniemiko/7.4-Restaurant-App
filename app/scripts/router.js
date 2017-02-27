@@ -6,11 +6,18 @@ var RestAppContainer = require('./components/index.jsx').RestAppContainer;
 
 var AppRouter = Backbone.Router.extend({
   routes: {
-    '': 'index'
+    '': 'index',
+    'admin': 'admin'
   },
   index: function(){
       ReactDOM.render(
       React.createElement(RestAppContainer),
+      document.getElementById('app')
+    );
+  },
+  admin: function(){
+    ReactDOM.render(
+      React.createElement(AdminContainer, {router: this}),
       document.getElementById('app')
     );
   }

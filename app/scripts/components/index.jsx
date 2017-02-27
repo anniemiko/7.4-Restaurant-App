@@ -19,10 +19,10 @@ var RestAppContainer = React.createClass({
     var newFoodCollection = this.state.foodCollection;
 
     newFoodCollection.add([
-      {title: 'burger', description: 'yum', price: 5},
-      {title: 'fries', description: 'yumyum', price: 3},
-      {title: 'shake', description: 'creamy', price: 4},
-      {title: 'cookie', description: 'yummy', price: 2}
+      {title: 'spring rolls', description: 'crispy, savory goodness with plum sauce', price: 7},
+      {title: 'red curry with tofu', description: "the most delicious dish you'll ever eat", price: 11},
+      {title: 'thai iced tea', description: 'the only beverage you should ever drink', price: 3},
+      {title: 'sticky rice', description: 'yummy', price: 4}
     ]);
     var subTotal = this.state.newOrderCollection.calculateTotal();
     this.setState({foodCollection: newFoodCollection, subTotal: subTotal})
@@ -69,7 +69,7 @@ var FoodListView = React.createClass({
       )
     })
     return (
-      <div className="menu col-md-8">
+      <div className="menu col-md-5 col-md-push-2">
         <h3>Menu</h3>
         <ul className="menu-list">
           {menuItems}
@@ -99,6 +99,7 @@ var OrderView = React.createClass({
     // clearing local storage for next order
     this.setState({orderCollection: new OrderCollection, newOrderCollection: [''], subTotal: 0});
     localStorage.clear();
+    this.forceUpdate();
   },
   render: function(){
     var orderItems = this.props.newOrderCollection.map(function(order){
@@ -107,12 +108,12 @@ var OrderView = React.createClass({
             <li key={order.cid} className="item">
               <span className="item-name">{order.get('title')}</span>
               <span className="item-price">{order.get('price')}</span>
-              <button className="btn btn-danger delete-btn">Delete</button>
+              {/*<button className="btn btn-danger delete-btn">Delete</button>*/}
             </li>
           )
         })
     return(
-      <div className="order-box col-md-4">
+      <div className="order-box col-md-3 col-md-push-2">
         <h3>Order Preview</h3>
         <div className="orders">
           <ul>
@@ -126,9 +127,19 @@ var OrderView = React.createClass({
         </div>
       </div>
     )
+    this.forceUpdate();
   }
 });
 
+var AdminContainer = React.createClass({
+  render: function(){
+    return (
+      <OrderView newOrderCollection={this.state.newOrderCollection} orderCollection={this.state.orderCollection} subTotal={this.state.subTotal}/>
+    )
+  }
+})
+
 module.exports = {
-  RestAppContainer
+  RestAppContainer,
+  AdminContainer
 }
