@@ -26,7 +26,7 @@ var NewOrderCollection = Backbone.Collection.extend({
       return accum + i.get('price')
     }, 0);
     return subTotal.toFixed(2)
-  }
+   }
 });
 
 module.exports = {

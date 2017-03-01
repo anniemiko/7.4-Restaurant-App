@@ -30,13 +30,18 @@ var RestAppContainer = React.createClass({
   updateOrder: function(menu){
     // console.log(menu);
     this.state.newOrderCollection.create(menu);
+    this.setState({newOrderCollection: this.state.newOrderCollection});
+  },
+  clearCart: function(){
+    var newOrderCollection = new NewOrderCollection
+    this.setState({newOrderCollection});
   },
   render: function(){
     // console.log(this.state.foodCollection);
     return (
       <div>
         <FoodListView updateOrder={this.updateOrder} foodCollection={this.state.foodCollection}/>
-        <OrderView newOrderCollection={this.state.newOrderCollection} orderCollection={this.state.orderCollection} subTotal={this.state.subTotal}/>
+        <OrderView newOrderCollection={this.state.newOrderCollection} orderCollection={this.state.orderCollection} subTotal={this.state.subTotal} clearCart={this.clearCart}/>
       </div>
     )
   }
@@ -97,11 +102,12 @@ var OrderView = React.createClass({
     // make an ajax call to post my collection array to the database
     // Backbone.LocalStorage.setVersion(0);
     // clearing local storage for next order
-    this.setState({orderCollection: new OrderCollection, newOrderCollection: [''], subTotal: 0});
+    this.props.clearCart();
+    this.setState({orderCollection: new OrderCollection, subTotal: 0});
     localStorage.clear();
-    this.forceUpdate();
   },
   render: function(){
+    console.log(this.props.newOrderCollection.length);
     var orderItems = this.props.newOrderCollection.map(function(order){
       var self = this;
       return (
